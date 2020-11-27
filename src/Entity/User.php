@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Exception\ValidationException;
 use App\Util\StringUtil;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface
@@ -11,9 +13,10 @@ class User implements UserInterface
     private const ROLES = [
         'ROLE_ADMIN',
         'ROLE_ASPIRANT',
-        'ROLE_TEACHER',
+        'ROLE_PROFESSOR',
         'ROLE_HEAD_DEPARTMENT',
-        'ROLE_PERSONAL'
+        'ROLE_PERSONAL',
+        'ROLE_STALKER' //TODO: check if this role really needed
     ];
 
     /** @var int */
@@ -39,6 +42,9 @@ class User implements UserInterface
     /** @var Contact|null */
     private $contact = null;
 
+    /** @var ScientificAchievement[] */
+    private $scientificAchievements = [];
+
     /**
      * @throws ValidationException
      */
@@ -52,6 +58,7 @@ class User implements UserInterface
         $this->setPassword($password);
         $this->setPersonalData($personalData);
         $this->setStructuralPart($structuralPart);
+        $this->scientificAchievements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,7 +134,9 @@ class User implements UserInterface
         while (!empty($roles)) {
             $role = array_shift($roles);
             if (!in_array($role, self::ROLES)) {
-                throw new \LogicException("Role $role is not allowed");
+                throw new \LogicException(
+                    "Not allowed role, it must be one of: " . implode(', ', self::ROLES)
+                );
             }
 
             if (!in_array($role, $this->roles)) {
@@ -201,6 +210,44 @@ class User implements UserInterface
     public function setContact(?Contact $contact): self
     {
         $this->contact = $contact;
+        return $this;
+    }
+
+    /**
+     * @return Collection|ScientificAchievement[]
+     */
+    public function getScientificAchievements(): Collection
+    {
+        return $this->scientificAchievements;
+    }
+
+    public function setScientificAchievements(array $scientificAchievements): self
+    {
+        foreach ($this->scientificAchievements as $achievement) {
+            $achievement->setAuthor(null);
+        }
+
+        $this->scientificAchievements = new ArrayCollection();
+
+        foreach ($scientificAchievements as $achievement) {
+            if (!$this->scientificAchievements->contains($achievement)) {
+                $this->scientificAchievements[] = $achievement;
+                $achievement->setAuthor($this);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeScientificAchievements(ScientificAchievement $achievement): self
+    {
+        if ($this->scientificAchievements->contains($achievement)) {
+            $this->scientificAchievements->removeElement($achievement);
+            // set the owning side to null (unless already changed)
+            if ($achievement->getAuthor() === $this) {
+                $achievement->setAuthor(null);
+            }
+        }
         return $this;
     }
 

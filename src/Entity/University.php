@@ -36,9 +36,10 @@ class University
     public function setName($name): self
     {
         $len = StringUtil::getLength($name);
+        $maxLen = 255;
 
-        if ($len < 1 || $len > 100) {
-            throw new ValidationException("First name length from 1 to 255 chars", 'name');
+        if ($len < 1 || $len > $maxLen) {
+            throw new ValidationException("Field name length from 1 to $maxLen chars", 'name');
         }
 
         $this->name = $name;

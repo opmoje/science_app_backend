@@ -1,0 +1,5 @@
+App\Entity\Document:
+  file:
+    mapping: documents
+    filename_property: filePath
+    mime_type: fileMimeType
