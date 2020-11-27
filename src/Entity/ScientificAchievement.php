@@ -8,9 +8,13 @@ use App\Util\StringUtil;
 class ScientificAchievement
 {
     private const TYPES = [
+        // Публикация
         'PUBLICATION',
+        // Конференция
         'CONFERENCE',
-        'THESIS',
+        // Диссертация
+        'DISSERTATION',
+        // Патент
         'PATENT'
     ];
 

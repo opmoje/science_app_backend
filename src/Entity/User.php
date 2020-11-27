@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Exception\ValidationException;
-use App\Util\StringUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,11 +38,20 @@ class User implements UserInterface
     /** @var Department */
     private $department = null;
 
-    /** @var Contact|null */
-    private $contact = null;
+    /** @var UserContact|null */
+    private $contacts = null;
 
     /** @var ScientificAchievement[] */
     private $scientificAchievements = [];
+
+    /** @var SkillHard[] */
+    private $hardSkills = [];
+
+    /** @var SkillSoft[] */
+    private $softSkills = [];
+
+    /** @var UserBelbinProfile|null */
+    private $profileByBelbin = null;
 
     /**
      * @throws ValidationException
@@ -58,7 +66,10 @@ class User implements UserInterface
         $this->setPassword($password);
         $this->setPersonalData($personalData);
         $this->setStructuralPart($structuralPart);
+        // initialise empty collections:
         $this->scientificAchievements = new ArrayCollection();
+        $this->hardSkills = new ArrayCollection();
+        $this->softSkills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,21 +176,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @throws ValidationException
-     */
-    public function setDisplayName(string $displayName): self
-    {
-        $len = StringUtil::getLength($displayName);
-
-        if ($len < 1 || $len > 100) {
-            throw new ValidationException("Display name length from 1 to 100 chars", 'displayName');
-        }
-
-        $this->displayName = $displayName;
-        return $this;
-    }
-
     public function getStructuralPart(): StructuralPart
     {
         return $this->structuralPart;
@@ -202,14 +198,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getContact(): ?Contact
+    public function getContacts(): ?UserContact
     {
-        return $this->contact;
+        return $this->contacts;
     }
 
-    public function setContact(?Contact $contact): self
+    public function setContacts(?UserContact $contacts): self
     {
-        $this->contact = $contact;
+        $this->contacts = $contacts;
         return $this;
     }
 
@@ -239,15 +235,39 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeScientificAchievements(ScientificAchievement $achievement): self
+    public function getHardSkills(): array
     {
-        if ($this->scientificAchievements->contains($achievement)) {
-            $this->scientificAchievements->removeElement($achievement);
-            // set the owning side to null (unless already changed)
-            if ($achievement->getAuthor() === $this) {
-                $achievement->setAuthor(null);
+        return $this->hardSkills;
+    }
+
+    public function setHardSkills(array $hardSkills): self
+    {
+        $this->hardSkills = new ArrayCollection();
+
+        foreach ($hardSkills as $skill) {
+            if (!$this->hardSkills->contains($skill)) {
+                $this->hardSkills[] = $skill;
             }
         }
+
+        return $this;
+    }
+
+    public function getSoftSkills(): array
+    {
+        return $this->softSkills;
+    }
+
+    public function setSoftSkills(array $softSkills): self
+    {
+        $this->softSkills = new ArrayCollection();
+
+        foreach ($softSkills as $skill) {
+            if (!$this->softSkills->contains($skill)) {
+                $this->softSkills[] = $skill;
+            }
+        }
+
         return $this;
     }
 

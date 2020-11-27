@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Exception\ValidationException;
 
-class Contact
+class UserContact
 {
     /** @var string */
     private $phone = null;
@@ -46,16 +46,16 @@ class Contact
         return $this->email;
     }
 
-    public function setELibrary(string $eLibrary): self
+    /**
+     * @throws ValidationException
+     */
+    public function setEmail(string $email): self
     {
-        if (
-            filter_var($eLibrary, FILTER_VALIDATE_URL) === false
-            || !preg_match('/^http[s]?:\/\/(?:www\.)?elibrary\.ru/', $eLibrary)
-        ) {
-            throw new ValidationException('Incorrect elibrary.ru url', 'eLibrary');
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new ValidationException('Incorrect email', 'email');
         }
 
-        $this->eLibrary = $eLibrary;
+        $this->email = $email;
         return $this;
     }
 

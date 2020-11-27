@@ -39,7 +39,7 @@ class Department
         $maxLen = 255;
 
         if ($len < 1 || $len > $maxLen) {
-            throw new ValidationException("First name length from 1 to $maxLen chars", 'name');
+            throw new ValidationException("Department name length from 1 to $maxLen chars", 'name');
         }
 
         $this->name = $name;

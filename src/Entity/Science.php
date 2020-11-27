@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Exception\ValidationException;
 use App\Util\StringUtil;
 
-class UniversityCafedra
+class Science
 {
     /** @var int */
     private $id;
@@ -13,20 +13,12 @@ class UniversityCafedra
     /** @var string */
     private $name;
 
-    /** @var University */
-    private $university;
-
-    /** @var UniversityFaculty */
-    private $faculty;
-
     /**
      * @throws ValidationException
      */
-    public function __construct(string $name, University $university, UniversityFaculty $faculty)
+    public function __construct(string $name)
     {
         $this->setName($name);
-        $this->university = $university;
-        $this->faculty = $faculty;
     }
 
     public function getId(): ?int
@@ -45,24 +37,14 @@ class UniversityCafedra
     public function setName($name): self
     {
         $len = StringUtil::getLength($name);
-        $maxLen = 255;
+        $maxLen = 100;
 
         if ($len < 1 || $len > $maxLen) {
-            throw new ValidationException("Field name length from 1 to $maxLen chars", 'name');
+            throw new ValidationException("Science name length from 1 to $maxLen chars", 'name');
         }
 
         $this->name = $name;
 
         return $this;
-    }
-
-    public function getUniversity(): University
-    {
-        return $this->university;
-    }
-
-    public function getFaculty(): UniversityFaculty
-    {
-        return $this->faculty;
     }
 }

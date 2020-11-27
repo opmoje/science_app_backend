@@ -9,8 +9,10 @@ class UniversityFaculty
 {
     /** @var int */
     private $id;
+
     /** @var string */
     private $name;
+
     /** @var University */
     private $university;
 
