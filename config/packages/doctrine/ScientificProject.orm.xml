@@ -1,0 +1,38 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Entity\ScientificProject" repository-class="App\Repository\ScientificProjectRepository">
+        <indexes>
+            <index columns="type"/>
+            <index columns="name"/>
+            <index columns="budget"/>
+        </indexes>
+        <id name="id" type="integer" length="10">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+        <many-to-one field="user" target-entity="App\Entity\User"/>
+        <field name="name" type="string" length="255"/>
+        <field name="type" type="string" length="12"/>
+        <embedded name="structuralPart" class="App\Entity\StructuralPart" use-column-prefix="false"/>
+        <many-to-one field="science" target-entity="App\Entity\Science"/>
+        <field name="public" type="boolean">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+        <field name="dateFrom" type="datetime"/>
+        <field name="dateTo" type="datetime"/>
+        <many-to-many field="neededHardSkills" target-entity="App\Entity\SkillHard" orphan-removal="true"/>
+        <field name="budget" type="integer" length="10">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+    </entity>
+
+</doctrine-mapping>

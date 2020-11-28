@@ -1,0 +1,32 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Entity\User" repository-class="App\Repository\UserRepository">
+        <indexes>
+            <index columns="first_name"/>
+            <index columns="middle_name"/>
+            <index columns="last_name"/>
+            <index columns="password"/>
+        </indexes>
+
+        <id name="id" type="integer" length="10">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <field name="email" type="string" length="180" unique="true"/>
+        <field name="password" type="string"/>
+        <field name="roles" type="json"/>
+
+        <embedded name="personalData" class="App\Entity\PersonalData" use-column-prefix="false"/>
+        <embedded name="structuralPart" class="App\Entity\StructuralPart" use-column-prefix="false"/>
+        <embedded name="contacts" class="App\Entity\UserContact" column-prefix="contact_"/>
+        <many-to-many field="hardSkills" target-entity="App\Entity\SkillHard" orphan-removal="true"/>
+        <embedded name="profileByBelbin" class="App\Entity\UserBelbinProfile" column-prefix="belbin_"/>
+    </entity>
+
+</doctrine-mapping>

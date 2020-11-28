@@ -26,6 +26,9 @@ class User implements UserInterface
 
     private $password;
 
+    /** @var array */
+    private $roles = [];
+
     /** @var PersonalData */
     private $personalData;
 
@@ -34,9 +37,6 @@ class User implements UserInterface
      * @var StructuralPart
      */
     private $structuralPart;
-
-    /** @var array */
-    private $roles = [];
 
     /**
      * Должность
@@ -57,6 +57,12 @@ class User implements UserInterface
      * @var ScientificAchievement[]
      */
     private $scientificAchievements = [];
+
+    /**
+     * Научные деятельность
+     * @var ScientificJob[]
+     */
+    private $scientificJobs = [];
 
     /**
      * Хордовые скилы @var SkillHard[]

@@ -27,6 +27,18 @@ class ScientificProject
     /** @var int */
     private $id;
 
+    /**
+     * Кто создал проект
+     * @var User
+     */
+    private $user;
+
+    /**
+     * Приглашенные участники
+     * @var User[]
+     */
+    private $participants = [];
+
     /** @var string */
     private $name;
 
@@ -62,11 +74,6 @@ class ScientificProject
 
     private $budget = 0;
 
-    /*
-     * Кого нужно нам это исполнитель и руководитель и нужны компетенции. Также исполнитель
-     *
-     */
-
     /**
      * Источник(и) финансирования, пример:
      * Бортник
@@ -76,10 +83,10 @@ class ScientificProject
      */
     private $budgetSource = '';
 
-
     public function __construct(
         string $name,
         string $type,
+        User $user,
         UniversityCafedra $cafedra,
         Science $science,
         \DateTime $dateFrom,
@@ -87,10 +94,12 @@ class ScientificProject
     ) {
         $this->name = $name;
         $this->type = $type;
+        $this->user = $user;
         $this->setStructuralPart($cafedra);
         $this->science = $science;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
+        $this->participants = new ArrayCollection();
         $this->neededHardSkills = new ArrayCollection();
     }
 
@@ -131,6 +140,36 @@ class ScientificProject
         }
 
         $this->type = $type;
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        //TODO: restrict by user role
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getParticipants(): array
+    {
+        return $this->participants;
+    }
+
+    public function setParticipants(array $participants): self
+    {
+        $this->participants = new ArrayCollection();
+
+        foreach ($participants as $participant) {
+            if (!$this->participants->contains($participant)) {
+                $this->participants[] = $participant;
+            }
+        }
+
         return $this;
     }
 

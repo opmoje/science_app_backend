@@ -43,8 +43,6 @@ class ScientificJob
     /** @var \DateTimeImmutable */
     private $publicationDate;
 
-
-
     /**
      * @throws ValidationException
      */
