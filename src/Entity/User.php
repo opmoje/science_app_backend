@@ -29,28 +29,47 @@ class User implements UserInterface
     /** @var PersonalData */
     private $personalData;
 
-    /** @var StructuralPart */
+    /**
+     * Структурная единица (Университет, Факультет, Кафедра)
+     * @var StructuralPart
+     */
     private $structuralPart;
 
     /** @var array */
     private $roles = [];
 
-    /** @var Department */
+    /**
+     * Должность
+     * @var Position
+     */
+    private $position = null;
+
+    /**
+     * Отдел @var Department
+     */
     private $department = null;
 
-    /** @var UserContact|null */
+    /** Контакты @var UserContact|null */
     private $contacts = null;
 
-    /** @var ScientificAchievement[] */
+    /**
+     * Научные достижения
+     * @var ScientificAchievement[]
+     */
     private $scientificAchievements = [];
 
-    /** @var SkillHard[] */
+    /**
+     * Хордовые скилы @var SkillHard[]
+     */
     private $hardSkills = [];
 
-    /** @var SkillSoft[] */
+    /** Софтовые скилы @var SkillSoft[] */
     private $softSkills = [];
 
-    /** @var UserBelbinProfile|null */
+    /**
+     * Профиль по Белбину
+     * @var UserBelbinProfile|null
+     */
     private $profileByBelbin = null;
 
     /**
@@ -187,6 +206,17 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPosition(): ?Position
+    {
+        return $this->position;
+    }
+
+    public function setPosition(Position $position): self
+    {
+        $this->position = $position;
+        return $this;
+    }
+
     public function getDepartment(): Department
     {
         return $this->department;
@@ -268,6 +298,17 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function getProfileByBelbin(): ?UserBelbinProfile
+    {
+        return $this->profileByBelbin;
+    }
+
+    public function setProfileByBelbin(UserBelbinProfile $profileByBelbin): self
+    {
+        $this->profileByBelbin = $profileByBelbin;
         return $this;
     }
 
