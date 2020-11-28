@@ -33,14 +33,11 @@ class ScientificProject
     /** @var string */
     private $type;
 
-    /** @var University */
-    private $university;
-
-    /** @var UniversityFaculty */
-    private $faculty;
-
-    /** @var UniversityCafedra */
-    private $cafedra;
+    /**
+     * Структурная единица (Университет, Факультет, Кафедра)
+     * @var StructuralPart
+     */
+    private $structuralPart;
 
     /** @var Science */
     private $science;
@@ -54,9 +51,11 @@ class ScientificProject
     /** @var \DateTime */
     private $dateTo;
 
-    /** @var array */
-    //TODO: коллекция сущности или роли
-    private $personnelRequest = [];
+    /**
+     * Необходимые позиции на проект
+     * @var Position[]
+     */
+    private $neededPositions = [];
 
     /** @var SkillHard[]  */
     private $neededHardSkills = [];
@@ -88,7 +87,7 @@ class ScientificProject
     ) {
         $this->name = $name;
         $this->type = $type;
-        $this->cafedra = $cafedra;
+        $this->setStructuralPart($cafedra);
         $this->science = $science;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
@@ -137,24 +136,31 @@ class ScientificProject
 
     public function getUniversity(): University
     {
-        return $this->university;
+        return $this->structuralPart->getUniversity();
     }
 
     public function getFaculty(): UniversityFaculty
     {
-        return $this->faculty;
+        return $this->structuralPart->getFaculty();
     }
 
     public function getCafedra(): UniversityCafedra
     {
-        return $this->cafedra;
+        return $this->structuralPart->getCafedra();
     }
 
-    public function setCafedra(UniversityCafedra $cafedra): self
+    public function getStructuralPart(): StructuralPart
     {
-        $this->cafedra = $cafedra;
-        $this->faculty = $cafedra->getFaculty();
-        $this->university = $cafedra->getUniversity();
+        return $this->structuralPart;
+    }
+
+    public function setStructuralPart(UniversityCafedra $cafedra): self
+    {
+        $structuralPart = new StructuralPart(
+            $cafedra->getUniversity(),
+            $cafedra->getFaculty(),
+            $cafedra
+        );
 
         return $this;
     }
@@ -203,14 +209,24 @@ class ScientificProject
         return $this;
     }
 
-    public function getPersonnelRequest(): array
+    /**
+     * @return Collection|Position[]
+     */
+    public function getNeededPositions(): array
     {
-        return $this->personnelRequest;
+        return $this->neededPositions;
     }
 
-    public function setPersonnelRequest(array $personnelRequest): self
+    public function setNeededPositions(array $neededPositions): self
     {
-        $this->personnelRequest = $personnelRequest;
+        $this->neededPositions = new ArrayCollection();
+
+        foreach ($neededPositions as $position) {
+            if (!$this->neededPositions->contains($position)) {
+                $this->neededPositions[] = $position;
+            }
+        }
+
         return $this;
     }
 

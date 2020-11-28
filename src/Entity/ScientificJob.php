@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Exception\ValidationException;
 use App\Util\StringUtil;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
- * Научное достижение
+ * Научный труд
  */
-class ScientificAchievement
+class ScientificJob
 {
     private const TYPES = [
         // Публикация
@@ -21,26 +23,27 @@ class ScientificAchievement
         'PATENT'
     ];
 
+    private const STATUSES = ['IN_WORK', 'DECLINED', 'DECLINED_PERMANENT', 'PUBLISHED'];
+
     /** @var int */
     private $id;
-
-    /** @var User */
-    private $author;
 
     /** @var string */
     private $type;
 
     /** @var string */
-    private $name;
+    private $status = 'PENDING';
+
+    /** @var User[] */
+    private $authors;
 
     /** @var string */
-    private $link;
+    private $name;
 
     /** @var \DateTimeImmutable */
     private $publicationDate;
 
-    /** @var Document|null */
-    private $file = null;
+
 
     /**
      * @throws ValidationException
@@ -50,13 +53,13 @@ class ScientificAchievement
         string $type,
         \DateTimeImmutable $publicationDate,
         string $link,
-        User $author
+        ArrayCollection $authors
     ) {
         $this->setType($type);
         $this->setName($name);
         $this->publicationDate = $publicationDate;
         $this->setLink($link);
-        $this->author = $author;
+        $this->authors = $authors;
     }
 
     public function getId(): int
@@ -64,14 +67,24 @@ class ScientificAchievement
         return $this->id;
     }
 
-    public function getAuthor(): User
+    /**
+     * @return Collection|User[]
+     */
+    public function getAuthors(): Collection
     {
-        return $this->author;
+        return $this->authors;
     }
 
-    public function setAuthor(User $author): self
+    public function setAuthors(array $authors): self
     {
-        $this->author = $author;
+        $this->authors = new ArrayCollection();
+
+        foreach ($authors as $author) {
+            if (!$this->authors->contains($author)) {
+                $this->authors[] = $author;
+            }
+        }
+
         return $this;
     }
 
@@ -89,6 +102,23 @@ class ScientificAchievement
         }
 
         $this->type = $type;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        if (!in_array($status, self::STATUSES)) {
+            throw new \LogicException(
+                "Not allowed status, it must be one of: " . implode(', ', self::STATUSES)
+            );
+        }
+
+        $this->status = $status;
         return $this;
     }
 
