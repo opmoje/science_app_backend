@@ -1,0 +1,12 @@
+App\Entity\User:
+  attributes:
+    order:
+      id: "DESC"
+  collectionOperations:
+    get:
+      normalization_context:
+        groups: ['User:collection']
+  itemOperations:
+    get:
+      normalization_context:
+        groups: ['User:item']

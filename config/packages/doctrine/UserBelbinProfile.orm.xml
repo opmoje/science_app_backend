@@ -4,15 +4,15 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <embeddable name="App\Entity\UserBelbinProfile">
-        <field name="coordinator" type="smallint" length="2"/>
-        <field name="shaper" type="smallint" length="2"/>
-        <field name="teamWorker" type="smallint" length="2"/>
-        <field name="resourceInvestigator" type="smallint" length="2"/>
-        <field name="plant" type="smallint" length="2"/>
-        <field name="monitorEvaluator" type="smallint" length="2"/>
-        <field name="implementer" type="smallint" length="2"/>
-        <field name="specialist" type="smallint" length="2"/>
-        <field name="completerFinisher" type="smallint" length="2"/>
+        <field name="coordinator" type="smallint" length="2" nullable="true"/>
+        <field name="shaper" type="smallint" length="2" nullable="true"/>
+        <field name="teamWorker" type="smallint" length="2" nullable="true"/>
+        <field name="resourceInvestigator" type="smallint" length="2" nullable="true"/>
+        <field name="plant" type="smallint" length="2" nullable="true"/>
+        <field name="monitorEvaluator" type="smallint" length="2" nullable="true"/>
+        <field name="implementer" type="smallint" length="2" nullable="true"/>
+        <field name="specialist" type="smallint" length="2" nullable="true"/>
+        <field name="completerFinisher" type="smallint" length="2" nullable="true"/>
     </embeddable>
 
 </doctrine-mapping>

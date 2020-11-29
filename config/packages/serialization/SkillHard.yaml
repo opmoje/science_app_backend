@@ -1,0 +1,16 @@
+App\Entity\SkillHard:
+  attributes:
+    id:
+      groups:
+        - 'SkillHard:item'
+        - 'SkillHard:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    name:
+      groups:
+        - 'SkillHard:item'
+        - 'SkillHard:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'

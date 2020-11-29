@@ -1,0 +1,94 @@
+# Domain related mapping
+App\Entity\User:
+  attributes:
+    id:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+        - 'ScientificJob:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+    displayName:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+        - 'ScientificJob:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+    university:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+        - 'ScientificJob:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+    contacts:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    hardSkills:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    profileByBelbin:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+
+App\Entity\UserContact:
+  attributes:
+    phone:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    email:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    vk:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    facebook:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+
+App\Entity\UserBelbinProfile:
+  attributes:
+    coordinator:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    shaper:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    teamWorker:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    resourceInvestigator:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    plant:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    monitorEvaluator:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    implementer:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    specialist:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+    completerFinisher:
+      groups:
+        - 'User:item'
+        - 'User:collection'

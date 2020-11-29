@@ -18,7 +18,7 @@ class UserContact
     /** @var string */
     private $facebook = null;
 
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
@@ -41,7 +41,7 @@ class UserContact
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -59,7 +59,7 @@ class UserContact
         return $this;
     }
 
-    public function getVk(): string
+    public function getVk(): ?string
     {
         return $this->vk;
     }
@@ -71,7 +71,7 @@ class UserContact
     {
         if (
             filter_var($vk, FILTER_VALIDATE_URL) === false
-            || !preg_match('/^http[s]?:\/\/(?:www\.)?vk\.com$/', $vk)
+            || !preg_match('/^http[s]?:\/\/(?:www\.)?vk\.com/', $vk)
         ) {
             throw new ValidationException('Incorrect vk.com url', 'vk');
         }
@@ -80,7 +80,7 @@ class UserContact
         return $this;
     }
 
-    public function getFacebook(): string
+    public function getFacebook(): ?string
     {
         return $this->facebook;
     }
@@ -92,9 +92,9 @@ class UserContact
     {
         if (
             filter_var($facebook, FILTER_VALIDATE_URL) === false
-            || !preg_match('/^http[s]?:\/\/(?:www\.)?vk\.com$/', $facebook)
+            || !preg_match('/^http[s]?:\/\/(?:www\.)?facebook\.com/', $facebook)
         ) {
-            throw new ValidationException('Incorrect vk.com url', 'vk');
+            throw new ValidationException('Incorrect facebook.com url', 'vk');
         }
 
         $this->facebook = $facebook;

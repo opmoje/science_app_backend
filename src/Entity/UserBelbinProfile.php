@@ -11,54 +11,54 @@ class UserBelbinProfile
      * Координатор, тип
      * @var int
      */
-    public $coordinator;
+    public $coordinator = null;
 
     /**
      * Мотиватор, тип
      * @var int
      */
-    public $shaper;
+    public $shaper = null;
 
     /**
      * Душа команды, тип
      * @var int
      */
-    public $teamWorker;
+    public $teamWorker = null;
 
     /**
      * Дипломат, тип
      * @var int
      */
-    public $resourceInvestigator;
+    public $resourceInvestigator = null;
 
     /**
      * Генератор идей, тип
      * @var int
      */
-    public $plant;
+    public $plant = null;
 
     /**
      * Аналитик, тип
      * @var int
      */
-    public $monitorEvaluator;
+    public $monitorEvaluator = null;
 
     /**
      * Исполнитель, тип
      * @var int
      */
-    public $implementer;
+    public $implementer = null;
 
     /**
      * Специалист, тип
      * @var int
      */
-    public $specialist;
+    public $specialist = null;
 
     /**
      * Финишер, тип
      * @var int
      */
-    public $completerFinisher;
+    public $completerFinisher = null;
 
 }

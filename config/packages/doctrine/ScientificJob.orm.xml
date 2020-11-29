@@ -8,6 +8,8 @@
             <index columns="type"/>
             <index columns="name"/>
             <index columns="status"/>
+            <index columns="aggregation_type"/>
+            <index columns="cited_count"/>
         </indexes>
         <id name="id" type="integer" length="10">
             <generator strategy="AUTO"/>
@@ -15,15 +17,22 @@
                 <option name="unsigned">true</option>
             </options>
         </id>
-        <field name="type" type="string" length="12"/>
+        <field name="type" type="string" length="100"/>
         <field name="status" type="string" length="18">
             <options>
                 <option name="default">PENDING</option>
             </options>
         </field>
-        <many-to-many field="authors" target-entity="App\Entity\User" orphan-removal="true"/>
-        <field name="name" type="string" length="255"/>
+        <many-to-one field="author" target-entity="App\Entity\User"/>
+        <field name="name" type="string" length="512"/>
         <field name="publicationDate" type="datetime_immutable"/>
+        <field name="link" type="string" length="255" />
+        <field name="aggregationType" type="string" length="100" nullable="true"/>
+        <field name="citedCount" type="integer" length="10" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
     </entity>
 
 </doctrine-mapping>

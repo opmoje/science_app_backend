@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Exception\ValidationException;
+use App\Util\StringUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,14 +30,11 @@ class User implements UserInterface
     /** @var array */
     private $roles = [];
 
-    /** @var PersonalData */
-    private $personalData;
+    /** @var string */
+    private $displayName;
 
-    /**
-     * Структурная единица (Университет, Факультет, Кафедра)
-     * @var StructuralPart
-     */
-    private $structuralPart;
+    /** @var University */
+    private $university;
 
     /**
      * Должность
@@ -78,19 +76,24 @@ class User implements UserInterface
      */
     private $profileByBelbin = null;
 
+    private $embeddingVector = null;
+
+    /** @var bool */
+    private $searchable = true;
+
     /**
      * @throws ValidationException
      */
     public function __construct(
         string $email,
         string $password,
-        PersonalData $personalData,
-        StructuralPart $structuralPart
+        string $displayName,
+        University $university
     ) {
         $this->setEmail($email);
         $this->setPassword($password);
-        $this->setPersonalData($personalData);
-        $this->setStructuralPart($structuralPart);
+        $this->setDisplayName($displayName);
+        $this->setUniversity($university);
         // initialise empty collections:
         $this->scientificAchievements = new ArrayCollection();
         $this->hardSkills = new ArrayCollection();
@@ -150,6 +153,8 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     /**
      * @see UserInterface
      */
@@ -185,30 +190,29 @@ class User implements UserInterface
 
     public function getDisplayName()
     {
-        return $this->getPersonalData()->getLastName()
-            . ' ' . $this->getPersonalData()->getFirstName()
-            . ' ' . $this->getPersonalData()->getMiddleName();
+        return $this->displayName;
     }
 
-    public function getPersonalData(): PersonalData
+    public function setDisplayName(string $displayName): self
     {
-        return $this->personalData;
-    }
+        $len = StringUtil::getLength($displayName);
 
-    public function setPersonalData(PersonalData $personalData): self
-    {
-        $this->personalData = $personalData;
+        if ($len < 1 || $len > 100) {
+            throw new ValidationException("First name length from 1 to 100 chars", 'displayName');
+        }
+
+        $this->displayName = $displayName;
         return $this;
     }
 
-    public function getStructuralPart(): StructuralPart
+    public function getUniversity(): University
     {
-        return $this->structuralPart;
+        return $this->university;
     }
 
-    public function setStructuralPart(StructuralPart $structuralPart): self
+    public function setUniversity(University $university): self
     {
-        $this->structuralPart = $structuralPart;
+        $this->university = $university;
         return $this;
     }
 
@@ -271,7 +275,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getHardSkills(): array
+    public function getHardSkills()
     {
         return $this->hardSkills;
     }
@@ -315,6 +319,17 @@ class User implements UserInterface
     public function setProfileByBelbin(UserBelbinProfile $profileByBelbin): self
     {
         $this->profileByBelbin = $profileByBelbin;
+        return $this;
+    }
+
+    public function isSearchable(): bool
+    {
+        return $this->searchable;
+    }
+
+    public function setSearchable(bool $searchable): self
+    {
+        $this->searchable = $searchable;
         return $this;
     }
 

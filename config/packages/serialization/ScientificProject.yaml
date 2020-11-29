@@ -1,0 +1,62 @@
+App\Entity\ScientificProject:
+  attributes:
+    id:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+    user:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    name:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    description:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:write'
+        - 'ScientificProject:write'
+    type:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    public:
+      groups:
+        - 'ScientificProject:write'
+    dateFrom:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    dateTo:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    participantsCountNeeded:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    neededHardSkills:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    budget:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    budgetSource:
+      groups:
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+        - 'ScientificProject:write'
+    recommendedUsers:
+      groups:
+        - 'ScientificProject:item'

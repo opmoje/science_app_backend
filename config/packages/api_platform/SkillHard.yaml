@@ -1,0 +1,15 @@
+App\Entity\SkillHard:
+  attributes:
+    order:
+      id: "DESC"
+  collectionOperations:
+    get:
+      normalization_context:
+        groups: ['SkillHard:collection']
+    post:
+      denormalization_context:
+        groups: ['SkillHard:write']
+  itemOperations:
+    get:
+      normalization_context:
+        groups: ['SkillHard:item']

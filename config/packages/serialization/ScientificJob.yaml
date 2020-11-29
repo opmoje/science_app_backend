@@ -1,0 +1,34 @@
+App\Entity\ScientificJob:
+  attributes:
+    id:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    type:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    author:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    name:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    publicationDate:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    link:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    aggregationType:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'
+    citedCount:
+      groups:
+        - 'ScientificJob:item'
+        - 'ScientificJob:collection'

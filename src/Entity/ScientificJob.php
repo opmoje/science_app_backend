@@ -4,25 +4,12 @@ namespace App\Entity;
 
 use App\Exception\ValidationException;
 use App\Util\StringUtil;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Научный труд
  */
 class ScientificJob
 {
-    private const TYPES = [
-        // Публикация
-        'PUBLICATION',
-        // Конференция
-        'CONFERENCE',
-        // Диссертация
-        'DISSERTATION',
-        // Патент
-        'PATENT'
-    ];
-
     private const STATUSES = ['IN_WORK', 'DECLINED', 'DECLINED_PERMANENT', 'PUBLISHED'];
 
     /** @var int */
@@ -34,14 +21,24 @@ class ScientificJob
     /** @var string */
     private $status = 'PENDING';
 
-    /** @var User[] */
-    private $authors;
+    /** @var User */
+    private $author;
 
     /** @var string */
     private $name;
 
     /** @var \DateTimeImmutable */
     private $publicationDate;
+
+    /** @var string */
+    private $link;
+
+    /** @var int  */
+    private $citedCount = 0;
+
+    /** @var string  */
+    private $aggregationType = '';
+
 
     /**
      * @throws ValidationException
@@ -50,14 +47,14 @@ class ScientificJob
         string $name,
         string $type,
         \DateTimeImmutable $publicationDate,
-        string $link,
-        ArrayCollection $authors
+        User $author,
+        string $link
     ) {
         $this->setType($type);
         $this->setName($name);
         $this->publicationDate = $publicationDate;
+        $this->author = $author;
         $this->setLink($link);
-        $this->authors = $authors;
     }
 
     public function getId(): int
@@ -65,24 +62,14 @@ class ScientificJob
         return $this->id;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getAuthors(): Collection
+    public function getAuthor(): User
     {
-        return $this->authors;
+        return $this->author;
     }
 
-    public function setAuthors(array $authors): self
+    public function setAuthor(User $author): self
     {
-        $this->authors = new ArrayCollection();
-
-        foreach ($authors as $author) {
-            if (!$this->authors->contains($author)) {
-                $this->authors[] = $author;
-            }
-        }
-
+        $this->author = $author;
         return $this;
     }
 
@@ -93,10 +80,11 @@ class ScientificJob
 
     public function setType(string $type): self
     {
-        if (!in_array($type, self::TYPES)) {
-            throw new \LogicException(
-                "Not allowed type, it must be one of: " . implode(', ', self::TYPES)
-            );
+        $len = StringUtil::getLength($type);
+        $maxLen = 100;
+
+        if ($len < 1 || $len > $maxLen) {
+            throw new ValidationException("Type length from 1 to $maxLen", 'type');
         }
 
         $this->type = $type;
@@ -131,11 +119,13 @@ class ScientificJob
     public function setName(string $name): self
     {
         $len = StringUtil::getLength($name);
-        $maxLen = 255;
+        $maxLen = 1024;
 
         if ($len < 1 || $len > $maxLen) {
             throw new ValidationException("Name length from 1 to $maxLen", 'name');
         }
+
+        $this->name = $name;
 
         return $this;
     }
@@ -151,21 +141,15 @@ class ScientificJob
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLink(): string
     {
         return $this->link;
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function setLink(string $link): self
     {
         if (filter_var($link, FILTER_VALIDATE_URL) === false) {
-            throw new ValidationException('Incorrect link url', 'link');
+            throw new ValidationException('Incorrect work link', 'link');
         }
 
         $this->link = $link;
@@ -175,6 +159,28 @@ class ScientificJob
     public function setFile(Document $file): self
     {
         $this->file = $file;
+        return $this;
+    }
+
+    public function getCitedCount(): int
+    {
+        return $this->citedCount;
+    }
+
+    public function setCitedCount(int $citedCount): self
+    {
+        $this->citedCount = $citedCount;
+        return $this;
+    }
+
+    public function getAggregationType(): string
+    {
+        return $this->aggregationType;
+    }
+
+    public function setAggregationType(string $aggregationType): self
+    {
+        $this->aggregationType = $aggregationType;
         return $this;
     }
 }

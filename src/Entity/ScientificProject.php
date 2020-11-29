@@ -11,19 +11,6 @@ use Doctrine\Common\Collections\Collection;
 
 class ScientificProject
 {
-    private const TYPES = [
-        // Исследование
-        'RESEARCH',
-        // Проверка гипотезы
-        'HYPOTHESIS_TEST',
-        // Диссертация
-        'DISSERTATION',
-        // Грантовая работа
-        'GRANT_MONETIZED',
-        // Проект, под который хотим подать заявку под грант
-        'GRANT_MONETIZED_PERSPECTIVE',
-    ];
-
     /** @var int */
     private $id;
 
@@ -43,16 +30,10 @@ class ScientificProject
     private $name;
 
     /** @var string */
+    private $description;
+
+    /** @var string */
     private $type;
-
-    /**
-     * Структурная единица (Университет, Факультет, Кафедра)
-     * @var StructuralPart
-     */
-    private $structuralPart;
-
-    /** @var Science */
-    private $science;
 
     /** @var bool */
     private $public = true;
@@ -63,13 +44,16 @@ class ScientificProject
     /** @var \DateTime */
     private $dateTo;
 
+    /** @var int */
+    private $participantsCountNeeded = 2;
+
     /**
      * Необходимые позиции на проект
      * @var Position[]
      */
     private $neededPositions = [];
 
-    /** @var SkillHard[]  */
+    /** @var SkillHard[] */
     private $neededHardSkills = [];
 
     private $budget = 0;
@@ -83,20 +67,24 @@ class ScientificProject
      */
     private $budgetSource = '';
 
+    /** @var User[] */
+    private $recommendedUsers = [];
+
+    /**
+     * @throws ValidationException
+     */
     public function __construct(
         string $name,
+        string $description,
         string $type,
         User $user,
-        UniversityCafedra $cafedra,
-        Science $science,
         \DateTime $dateFrom,
         \DateTime $dateTo
     ) {
-        $this->name = $name;
-        $this->type = $type;
+        $this->setName($name);
+        $this->setDescription($description);
+        $this->setType($type);
         $this->user = $user;
-        $this->setStructuralPart($cafedra);
-        $this->science = $science;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
         $this->participants = new ArrayCollection();
@@ -126,6 +114,27 @@ class ScientificProject
         return $this;
     }
 
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function setDescription(string $description): self
+    {
+        $len = StringUtil::getLength($description);
+        $maxLen = 65535;
+
+        if ($len < 1 || $len > $maxLen) {
+            throw new ValidationException("Description length from 1 to $maxLen chars", 'description');
+        }
+
+        $this->description = $description;
+        return $this;
+    }
+
     public function getType(): string
     {
         return $this->type;
@@ -133,12 +142,6 @@ class ScientificProject
 
     public function setType(string $type): self
     {
-        if (!in_array($type, self::TYPES)) {
-            throw new \LogicException(
-                "Not allowed type, it must be one of: " . implode(', ', self::TYPES)
-            );
-        }
-
         $this->type = $type;
         return $this;
     }
@@ -152,6 +155,23 @@ class ScientificProject
     {
         //TODO: restrict by user role
         $this->user = $user;
+        return $this;
+    }
+
+    public function getParticipantsCountNeeded(): int
+    {
+        return $this->participantsCountNeeded;
+    }
+
+    public function setParticipantsCountNeeded(int $participantsCountNeeded): self
+    {
+        if ($participantsCountNeeded < 2 || $participantsCountNeeded > 99) {
+            throw new ValidationException(
+                "participants count is invalid: min 2, max 99", 'participantsCountNeeded'
+            );
+        }
+
+        $this->participantsCountNeeded = $participantsCountNeeded;
         return $this;
     }
 
@@ -170,48 +190,6 @@ class ScientificProject
             }
         }
 
-        return $this;
-    }
-
-    public function getUniversity(): University
-    {
-        return $this->structuralPart->getUniversity();
-    }
-
-    public function getFaculty(): UniversityFaculty
-    {
-        return $this->structuralPart->getFaculty();
-    }
-
-    public function getCafedra(): UniversityCafedra
-    {
-        return $this->structuralPart->getCafedra();
-    }
-
-    public function getStructuralPart(): StructuralPart
-    {
-        return $this->structuralPart;
-    }
-
-    public function setStructuralPart(UniversityCafedra $cafedra): self
-    {
-        $structuralPart = new StructuralPart(
-            $cafedra->getUniversity(),
-            $cafedra->getFaculty(),
-            $cafedra
-        );
-
-        return $this;
-    }
-
-    public function getScience(): Science
-    {
-        return $this->science;
-    }
-
-    public function setScience(Science $science): self
-    {
-        $this->science = $science;
         return $this;
     }
 
@@ -306,7 +284,7 @@ class ScientificProject
         return $this;
     }
 
-    public function getBudgetSource(): string
+    public function getBudgetSource(): ?string
     {
         return $this->budgetSource;
     }

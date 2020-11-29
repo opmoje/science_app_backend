@@ -4,7 +4,9 @@
     "require": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "api-platform/core": "^2.5",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
@@ -32,7 +34,8 @@
         "symfony/var-dumper": "5.1.*",
         "symfony/web-profiler-bundle": "5.1.*",
         "symfony/yaml": "5.1.*",
-        "vich/uploader-bundle": "^1.15"
+        "vich/uploader-bundle": "^1.15",
+        "ext-v8js": "*"
     },
     "require-dev": {
     },

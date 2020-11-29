@@ -1,0 +1,16 @@
+App\Entity\University:
+  attributes:
+    id:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+        - 'ScientificJob:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'
+    name:
+      groups:
+        - 'User:item'
+        - 'User:collection'
+        - 'ScientificJob:collection'
+        - 'ScientificProject:item'
+        - 'ScientificProject:collection'

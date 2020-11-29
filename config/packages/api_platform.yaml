@@ -1,7 +1,17 @@
 api_platform:
-    mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+    # The title of the API.
+    version: '1.0.0'
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    show_webby: false
+    mapping:
+        paths:
+            - '%kernel.project_dir%/config/packages/api_platform'
+    exception_to_status:
+        App\Exception\ValidationException: 400

@@ -1,0 +1,15 @@
+App\Entity\ScientificProject:
+  attributes:
+    order:
+      id: "DESC"
+  collectionOperations:
+    get:
+      normalization_context:
+        groups: ['ScientificProject:collection']
+    post:
+      denormalization_context:
+        groups: ['ScientificProject:write']
+  itemOperations:
+    get:
+      normalization_context:
+        groups: ['ScientificProject:item']
