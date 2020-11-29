@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Exception\ValidationException;
 use App\Util\StringUtil;
 
-final class SkillHard
+class SkillHard
 {
     /** @var int */
     private $id;
