@@ -62,21 +62,19 @@ class User implements UserInterface
      */
     private $scientificJobs = [];
 
+    /** @var int */
+    private $scientificJobsTotal = 0;
+
     /**
      * Хордовые скилы @var SkillHard[]
      */
     private $hardSkills = [];
-
-    /** Софтовые скилы @var SkillSoft[] */
-    private $softSkills = [];
 
     /**
      * Профиль по Белбину
      * @var UserBelbinProfile|null
      */
     private $profileByBelbin = null;
-
-    private $embeddingVector = null;
 
     /** @var bool */
     private $searchable = true;
@@ -97,7 +95,6 @@ class User implements UserInterface
         // initialise empty collections:
         $this->scientificAchievements = new ArrayCollection();
         $this->hardSkills = new ArrayCollection();
-        $this->softSkills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,8 +149,6 @@ class User implements UserInterface
 
         return $this;
     }
-
-
 
     /**
      * @see UserInterface
@@ -293,24 +288,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSoftSkills(): array
-    {
-        return $this->softSkills;
-    }
-
-    public function setSoftSkills(array $softSkills): self
-    {
-        $this->softSkills = new ArrayCollection();
-
-        foreach ($softSkills as $skill) {
-            if (!$this->softSkills->contains($skill)) {
-                $this->softSkills[] = $skill;
-            }
-        }
-
-        return $this;
-    }
-
     public function getProfileByBelbin(): ?UserBelbinProfile
     {
         return $this->profileByBelbin;
@@ -330,6 +307,17 @@ class User implements UserInterface
     public function setSearchable(bool $searchable): self
     {
         $this->searchable = $searchable;
+        return $this;
+    }
+
+    public function getScientificJobsTotal(): int
+    {
+        return $this->scientificJobsTotal;
+    }
+
+    public function increaseScientificJobsTotal(): self
+    {
+        $this->scientificJobsTotal++;
         return $this;
     }
 

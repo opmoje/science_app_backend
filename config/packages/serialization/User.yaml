@@ -36,6 +36,9 @@ App\Entity\User:
       groups:
         - 'User:item'
         - 'User:collection'
+    scientificJobsTotal:
+      groups:
+        - 'ScientificProject:item'
 
 App\Entity\UserContact:
   attributes:

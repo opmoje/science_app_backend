@@ -54,6 +54,7 @@ class ScientificJob
         $this->setName($name);
         $this->publicationDate = $publicationDate;
         $this->author = $author;
+        $this->author->increaseScientificJobsTotal();
         $this->setLink($link);
     }
 

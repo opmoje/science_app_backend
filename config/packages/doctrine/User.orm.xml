@@ -22,6 +22,12 @@
         <embedded name="contacts" class="App\Entity\UserContact" column-prefix="contact_"/>
         <many-to-many field="hardSkills" target-entity="App\Entity\SkillHard" orphan-removal="true"/>
         <embedded name="profileByBelbin" class="App\Entity\UserBelbinProfile" column-prefix="belbin_"/>
+        <field name="scientificJobsTotal" type="smallint" length="4">
+            <options>
+                <option name="default">0</option>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
     </entity>
 
 </doctrine-mapping>

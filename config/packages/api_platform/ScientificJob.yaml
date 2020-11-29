@@ -6,6 +6,8 @@ App\Entity\ScientificJob:
     get:
       normalization_context:
         groups: ['ScientificJob:collection']
+      filters:
+        - 'api.scientific_job.author_filter'
     post:
       denormalization_context:
         groups: ['ScientificJob:write']

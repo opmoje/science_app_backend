@@ -35,3 +35,14 @@ services:
         class: App\RefreshTokenManager
         public: true
         arguments: [ '@doctrine.orm.default_entity_manager', 'Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken']
+
+    ## Api Platform filters
+    api.scientific_job.author_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { author: 'exact' } ]
+        tags:  [ 'api_platform.filter' ]
+        # The following are mandatory only if a _defaults section is defined
+        # You may want to isolate filters in a dedicated file to avoid adding them
+        autowire: false
+        autoconfigure: false
+        public: false
