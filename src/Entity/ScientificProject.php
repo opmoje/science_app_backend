@@ -175,7 +175,7 @@ class ScientificProject
         return $this;
     }
 
-    public function getParticipants(): array
+    public function getParticipants()
     {
         return $this->participants;
     }
