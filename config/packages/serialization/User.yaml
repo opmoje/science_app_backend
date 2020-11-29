@@ -26,10 +26,12 @@ App\Entity\User:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
     hardSkills:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
     profileByBelbin:
       groups:
         - 'User:item'
@@ -41,18 +43,22 @@ App\Entity\UserContact:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
     email:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
     vk:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
     facebook:
       groups:
         - 'User:item'
         - 'User:collection'
+        - 'ScientificProject:item'
 
 App\Entity\UserBelbinProfile:
   attributes:

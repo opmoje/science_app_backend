@@ -89,6 +89,7 @@ class ScientificProject
         $this->dateTo = $dateTo;
         $this->participants = new ArrayCollection();
         $this->neededHardSkills = new ArrayCollection();
+        $this->recommendedUsers = new ArrayCollection();
     }
 
     public function getId(): int
@@ -299,6 +300,24 @@ class ScientificProject
         }
 
         $this->budgetSource = $budgetSource;
+        return $this;
+    }
+
+    public function getRecommendedUsers(): Collection
+    {
+        return $this->recommendedUsers;
+    }
+
+    public function setRecommendedUsers(array $recommendedUsers): self
+    {
+        $this->recommendedUsers = new ArrayCollection();
+
+        foreach ($recommendedUsers as $user) {
+            if (!$this->recommendedUsers->contains($user)) {
+                $this->recommendedUsers[] = $user;
+            }
+        }
+
         return $this;
     }
 }

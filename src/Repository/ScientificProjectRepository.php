@@ -18,4 +18,14 @@ class ScientificProjectRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ScientificProject::class);
     }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(ScientificProject $entity)
+    {
+        $this->_em->persist($entity);
+        $this->_em->flush();
+    }
 }
